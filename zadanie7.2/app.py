@@ -7,8 +7,11 @@ app = Flask(__name__)
 uri = os.getenv('URI')
 user = os.getenv("USERNAME")
 password = os.getenv("PASSWORD")
-driver = GraphDatabase.driver(uri, auth=(user, password), database="neo4j")
+driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "test1234"), database="neo4j")
 
+@app.route('/')
+def initial():
+    return 'Neo4j Flask API, by Konrad Sokolowski. You can visit /employees to see all employees and /departments to see all departments.'
 
 def get_employees(tx, name=None, role=None, department=None, sort=None):
     query = "MATCH (e: Employee)"
